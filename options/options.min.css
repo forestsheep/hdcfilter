@@ -1,0 +1,66 @@
+.main-header,
+header {
+    margin-bottom: 15px
+}
+
+body {
+    background-color: #f2f2f2
+}
+
+#main {
+    margin: 30px auto 0;
+    max-width: 960px;
+    box-sizing: border-box
+}
+
+.donate-form,
+footer {
+    margin-top: 10px
+}
+
+img.logo {
+    height: 80px
+}
+
+.well {
+    background-color: #fbfbfb;
+    margin-bottom: 8px
+}
+
+.options-form .checkbox {
+    margin-bottom: 15px
+}
+
+.bigcheckbox {
+    width: 20px;
+    height: 20px;
+}
+
+.options-form {
+    overflow: hidden
+}
+
+.donate-form {
+    text-align: center
+}
+
+.donate-btn {
+    margin-top: 8px;
+    height: 46px
+}
+
+.sort-radio-block {
+    margin-left: 2px
+}
+
+.no-padding-left {
+    padding-left: 0
+}
+
+.context-menu-label {
+    padding-top: 7px
+}
+
+.little-margin-left {
+    margin-left: 5px
+}
