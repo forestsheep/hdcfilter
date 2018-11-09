@@ -7,7 +7,7 @@
     <script src="../js/vue.js"></script>
     <script src="option.js"></script>
     <title>
-        高高兴兴上班
+        选项
     </title>
     <link rel="stylesheet" type="text/css" href="vendors.min.css" />
     <link rel="stylesheet" type="text/css" href="options.min.css" />
@@ -16,7 +16,7 @@
 <body>
     <div class="row" id="main">
         <header class="text-center">
-            <img src="../icons/e.png" alt="Logo" class="logo">
+            <img src="../icons/seed256.png" alt="Logo" class="logo">
         </header>
         <form class="form-horizontal options-form ng-pristine ng-valid ng-valid-min ng-valid-max">
             <div class="col-lg-12">
@@ -74,20 +74,20 @@
                             <div class="radio col-sm-7">
                                 <label>
                                     <input class="ng-pristine ng-untouched ng-valid ng-empty" type="radio" value=1
-                                        v-model="config.cdseed.choose" v-on:change="saveconfig" :disabled="config.seedpdl.enable||!config.cdseed.enable">
+                                        v-model.number="config.cdseed.choose" v-on:change="saveconfig" :disabled="config.seedpdl.enable||!config.cdseed.enable">
                                     小于
                                 </label>
                             </div>
                             <div class="col-sm-5">
                                 <input type="number" min="0" max="9999" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min ng-valid-max text-right"
-                                    v-model="config.cdseed.nolt" v-on:change="saveconfig" :disabled="config.seedpdl.enable||!config.cdseed.enable||config.cdseed.choose != 1">
+                                    v-model.number="config.cdseed.nolt" v-on:change="saveconfig" :disabled="config.seedpdl.enable||!config.cdseed.enable||config.cdseed.choose != 1">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="radio col-sm-7">
                                 <label>
                                     <input class="ng-pristine ng-untouched ng-valid ng-empty" type="radio" value=0
-                                        v-model="config.cdseed.choose" v-on:change="saveconfig" :disabled="config.seedpdl.enable||!config.cdseed.enable">
+                                        v-model.number="config.cdseed.choose" v-on:change="saveconfig" :disabled="config.seedpdl.enable||!config.cdseed.enable">
                                     等于
                                 </label>
                             </div>
@@ -100,7 +100,7 @@
                             <div class="radio col-sm-7">
                                 <label>
                                     <input class="ng-pristine ng-untouched ng-valid ng-empty" type="radio" value=2
-                                        v-model="config.cdseed.choose" v-on:change="saveconfig" :disabled="config.seedpdl.enable||!config.cdseed.enable">
+                                        v-model.number="config.cdseed.choose" v-on:change="saveconfig" :disabled="config.seedpdl.enable||!config.cdseed.enable">
                                     大于
                                 </label>
                             </div>
@@ -127,7 +127,7 @@
                             <div class="radio col-sm-7">
                                 <label>
                                     <input class="ng-pristine ng-untouched ng-valid ng-empty" type="radio" value=1
-                                        v-model="config.cddl.choose" v-on:change="saveconfig" :disabled="config.seedpdl.enable||!config.cddl.enable">
+                                        v-model.number="config.cddl.choose" v-on:change="saveconfig" :disabled="config.seedpdl.enable||!config.cddl.enable">
                                     小于
                                 </label>
                             </div>
@@ -140,7 +140,7 @@
                             <div class="radio col-sm-7">
                                 <label>
                                     <input class="ng-pristine ng-untouched ng-valid ng-empty" type="radio" value=0
-                                        v-model="config.cddl.choose" v-on:change="saveconfig" :disabled="config.seedpdl.enable||!config.cddl.enable">
+                                        v-model.number="config.cddl.choose" v-on:change="saveconfig" :disabled="config.seedpdl.enable||!config.cddl.enable">
                                     等于
                                 </label>
                             </div>
@@ -153,7 +153,7 @@
                             <div class="radio col-sm-7">
                                 <label>
                                     <input class="ng-pristine ng-untouched ng-valid ng-empty" type="radio" value=2
-                                        v-model="config.cddl.choose" v-on:change="saveconfig" :disabled="config.seedpdl.enable||!config.cddl.enable">
+                                        v-model.number="config.cddl.choose" v-on:change="saveconfig" :disabled="config.seedpdl.enable||!config.cddl.enable">
                                     大于
                                 </label>
                             </div>
@@ -165,7 +165,6 @@
                     </div>
                 </div>
             </form>
-            <hr>
             <form class="form-horizontal options-form ng-pristine ng-valid ng-valid-min ng-valid-max">
                 <div class="col-md-8">
                     <div class="well options-b">
@@ -174,7 +173,7 @@
                                 <label>
                                     <input id="dls" class="ng-pristine ng-untouched ng-valid ng-empty bigcheckbox" type="checkbox"
                                         v-model="config.elapsedtime.enable" v-on:change="saveconfig">
-                                    &nbsp;&nbsp;发布时间小于
+                                    &nbsp;&nbsp;发布时间小于等于
                                 </label>
                             </div>
                         </div>
@@ -225,8 +224,8 @@
                         <div class="lead text-muted">
                             <div class="checkbox">
                                 <label>
-                                    <input id="dls" class="ng-pristine ng-untouched ng-valid ng-empty bigcheckbox" type="checkbox"
-                                        v-model="config.cdsize.enable" v-on:change="saveconfig">
+                                    <input id="dbbls" class="ng-pristine ng-untouched ng-valid ng-empty bigcheckbox"
+                                        type="checkbox" v-model="config.cdsize.enable" v-on:change="saveconfig">
                                     &nbsp;&nbsp;种子大小(GB)
                                 </label>
                             </div>
@@ -236,7 +235,7 @@
                             <div class="radio col-sm-7">
                                 <label>
                                     <input class="ng-pristine ng-untouched ng-valid ng-empty" type="radio" value=0
-                                        v-model="config.cdsize.choose" v-on:change="saveconfig" :disabled="!config.dsize.enable">
+                                        v-model.number="config.cdsize.choose" v-on:change="saveconfig" :disabled="!config.cdsize.enable">
                                     小于等于
                                 </label>
                             </div>
@@ -249,7 +248,7 @@
                             <div class="radio col-sm-7">
                                 <label>
                                     <input class="ng-pristine ng-untouched ng-valid ng-empty" type="radio" value=1
-                                        v-model="config.cdsize.choose" v-on:change="saveconfig" :disabled="!config.cdsize.enable">
+                                        v-model.number="config.cdsize.choose" v-on:change="saveconfig" :disabled="!config.cdsize.enable">
                                     大于等于
                                 </label>
                             </div>
@@ -259,7 +258,34 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </form>
+            <form class="form-horizontal options-form ng-pristine ng-valid ng-valid-min ng-valid-max">
+                <div class="col-lg-5">
+                    <div class="well options-b">
+                        <div class="lead text-muted">
+                            <div class="checkbox">
+                                <label>
+                                    <input id="vxb" class="ng-pristine ng-untouched ng-valid ng-empty bigcheckbox" type="checkbox"
+                                        v-model="config.cdavgprg.enable" v-on:change="saveconfig">
+                                    &nbsp;&nbsp;完成度小于等于
+                                </label>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-sm-7">
+                            </div>
+                            <div class="radio col-sm-5">
+                                <input type="number" min="0" max="9999" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min ng-valid-max text-right"
+                                    v-model.number="config.cdavgprg.pg" v-on:change="saveconfig" :disabled="!config.cdavgprg.enable">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
 </body>
+
+</html>

@@ -64,3 +64,10 @@ img.logo {
 .little-margin-left {
     margin-left: 5px
 }
+
+.list-area {
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 20px;
+    margin-bottom: 50px
+}

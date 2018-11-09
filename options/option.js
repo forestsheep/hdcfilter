@@ -43,11 +43,17 @@ this.st = function() {
 					choose: 0,
 					nogt: 3,
 					nolt: 100
+				},
+				cdavgprg: {
+					enable: true,
+					pg: 20
 				}
 			}
 		},
 		ready: function() {
-
+			if (localStorage.config != null) {
+				this.config = JSON.parse(localStorage.config)
+			}
 		},
 		methods: {
 			do1: function() {
