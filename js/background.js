@@ -92,7 +92,7 @@ function anaList(htmlResponse) {
 
     //try indexedDB
     let trans = idb.transaction(["torrents"], "readwrite")
-    let objectStore = trans.objectStore("torrents");
+    let objectStore = trans.objectStore("torrents")
     // 查多少条数据，如果是首页全部，i<102
     for (let i = 2; i < 102; i++) {
         let dname1 = doc.find(String.format(sname1, i))
@@ -129,7 +129,7 @@ function anaList(htmlResponse) {
 
 function ergRecord() {
     let trans = idb.transaction(["torrents"], "readwrite")
-    let objectStore = trans.objectStore("torrents");
+    let objectStore = trans.objectStore("torrents")
     objectStore.openCursor().onsuccess = function (event) {
         let cursor = event.target.result
         if (cursor) {
@@ -367,7 +367,7 @@ chrome.notifications.onButtonClicked.addListener(function (id, buttonIndex) {
             //我知道了
             break
     }
-    chrome.notifications.clear(id);
+    chrome.notifications.clear(id)
 })
 
 chrome.alarms.create("mainloop", {
@@ -382,6 +382,11 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
 })
 
 function looprun() {
+    //上来先清一下数据，为避免数据库打开延迟
+    setTimeout(() => {
+        clearIDBStroe(idb, "torrents")
+        clearIDBStroe(idb, "fav")
+    }, 200)
     setTimeout(() => {
         vList()
     }, 2000)
@@ -404,20 +409,17 @@ function openDB() {
 
     dbopenrequest.onerror = function (event) {
         console.log("fail")
-        console.log("Database error: " + event.target.errorCode);
+        console.log("Database error: " + event.target.errorCode)
     }
 
     dbopenrequest.onsuccess = function (event) {
         console.log("success")
         idb = dbopenrequest.result
-        //上来先清一下数据
-        clearIDBStroe(idb, "torrents")
-        clearIDBStroe(idb, "fav")
     }
 
     dbopenrequest.onupgradeneeded = function (event) {
         console.log("upg")
-        let db = event.target.result;
+        let db = event.target.result
         let objectStore = db.createObjectStore("torrents", {
             keyPath: "name"
         })
