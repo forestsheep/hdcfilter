@@ -333,8 +333,6 @@ function torrentFilter(config) {
                 cursor.continue()
             }
         } else {
-            // console.log("No more entries!")
-            // console.log("为您找到了" + count + "条")
             msgs = "为您找到了" + count + "条"
             if (chrome.notifications && count != 0) {
                 let opt = {
@@ -359,9 +357,7 @@ chrome.notifications.onButtonClicked.addListener(function (id, buttonIndex) {
     switch (buttonIndex) {
         case 0:
             //查看详情
-            chrome.tabs.create({
-                url: "view/ts.html"
-            })
+            openOsusumeTab()
             break
         case 1:
             //我知道了
@@ -370,19 +366,8 @@ chrome.notifications.onButtonClicked.addListener(function (id, buttonIndex) {
     chrome.notifications.clear(id)
 })
 
-chrome.alarms.create("mainloop", {
-    delayInMinutes: 1,
-    periodInMinutes: 10
-})
-
-chrome.alarms.onAlarm.addListener(function (alarm) {
-    if (alarm.name === "mainloop") {
-        looprun()
-    }
-})
-
 function looprun() {
-    //上来先清一下数据，为避免数据库打开延迟
+    //上来先清一下数据，为避免数据库打开延迟200ms
     setTimeout(() => {
         clearIDBStroe(idb, "torrents")
         clearIDBStroe(idb, "fav")
@@ -472,6 +457,46 @@ function clearIDBStroe(IDBInstance, storeName) {
         console.log("Database error: " + event.target.errorCode)
     }
 }
+
+function openOsusumeTab() {
+    chrome.tabs.get(parseInt(localStorage.osusumetabid), function (tab) {
+        if (tab == undefined) {
+            chrome.tabs.create({
+                url: "view/ts.html",
+                active: true
+            }, function (tab) {
+                localStorage.osusumetabid = tab.id
+            })
+        } else {
+            chrome.windows.update(tab.windowId, {
+                focused: true
+            })
+            chrome.tabs.update(tab.id, {
+                url: "view/ts.html",
+                active: true
+            }, function (tab) {})
+        }
+    })
+}
+
+chrome.alarms.create("mainloop", {
+    delayInMinutes: 1,
+    periodInMinutes: 1
+})
+
+chrome.alarms.create("testloop", {
+    delayInMinutes: 1,
+    periodInMinutes: 1
+})
+
+chrome.alarms.onAlarm.addListener(function (alarm) {
+    if (alarm.name === "mainloop") {
+        looprun()
+    }
+    if (alarm.name === "testloop") {
+
+    }
+})
 
 let idb
 openDB()
