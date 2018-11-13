@@ -22,9 +22,8 @@ this.st = function () {
 				let objectStore = trans.objectStore("fav")
 				objectStore.getAll().onsuccess = function(event) {
 					console.log(event.target.result);
-					// this.torrents = event.target.result
+					//vue的特殊写法
 					vm.torrents.push(event.target.result)
-					console.log(vm.torrents)
 				}
 			}
 		},
