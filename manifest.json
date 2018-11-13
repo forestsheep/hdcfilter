@@ -3,7 +3,8 @@
         "scripts": [
             "js/jquery-2.0.0.min.js",
             "js/jquery.cookie.js",
-            "js/background.js"
+            "js/background.js",
+            "js/util.js"
         ]
     },
     "description": "发现好种子",
