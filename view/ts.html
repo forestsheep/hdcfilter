@@ -11,6 +11,7 @@
     </title>
     <link rel="stylesheet" type="text/css" href="../options/vendors.min.css" />
     <link rel="stylesheet" type="text/css" href="../options/options.min.css" />
+    <link rel="stylesheet" type="text/css" href="ts.css" />
 </head>
 
 <body>
@@ -20,16 +21,18 @@
             推荐种子
         </div>
         <div class="col-lg-12" v-for="value in torrents">
-            <div v-for="(key1, value1) in value" class="col-md-6 list-group">
+            <div v-for="(key1, value1) in value" class="col-md-12 list-group">
                 <div class="list-group-item">
                     <a target="_blank" href="https://hdchina.org/{{ value1.url }}">{{ value1.name }}</a>
+                    <img class = "torrent_dl_icon"src="../icons/dl.png" alt="download">
+                    <a href="https://hdchina.org/{{ value1.torrentlink }}">点击下载种子</a>
                 </div>
                 <div class="list-group-item">
                     {{ value1.name2 }}
                 </div>
                 <div class="list-group-item">
                     {{ value1.time }} | {{ value1.size }} | 种子:{{ value1.seed }} | 下载: {{ value1.dl }} | 完成度:{{
-                    value1.avgprg }} | {{ value1.free }} {{ value1.freetime }}
+                    value1.avgprg }}% | {{ value1.free }} {{ value1.freetime }}
                 </div>
             </div>
         </div>

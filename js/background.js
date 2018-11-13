@@ -74,7 +74,8 @@ function anaList(htmlResponse) {
                 freetime: dfreetime.text(),
                 avgprg: null,
                 avgspd: null,
-                totalspd: null
+                totalspd: null,
+                torrentlink: null
             })
 
         }
@@ -115,6 +116,8 @@ function anaDetail(name, htmlResponse) {
     let stotalspeed = "#site_content > div.details_box > table.table_details > tbody > tr:nth-child({0}) > td.rowfollow > span:nth-child(4) > b"
     let savgprogress = "#site_content > div.details_box > table.table_details > tbody > tr:nth-child({0}) > td.rowfollow > span:nth-child(1)"
 
+    let storrentdllink = "#site_content > div.details_box > table.movie_details > tbody > tr:nth-child(2) > td.info_box > ul:nth-child(2) > li > a.torrentdown_button"
+
     let trans = idb.transaction(["torrents"], "readwrite")
     let objectStore = trans.objectStore("torrents")
 
@@ -122,6 +125,8 @@ function anaDetail(name, htmlResponse) {
     let nprogress = 0
     let ntotalspeed = 0
     let nspeed = 0
+    let dtorrentdllink = doc.find(storrentdllink)
+    // console.log("种子地址" + dtorrentdllink.attr("href"))
     //由于表格不是固定，内容过多的情况下，数据可能是在第5条之后
     for (let i = 5; i < 99; i++) {
         let davgspeed = doc.find(stringFormat(savgspeed, i))
@@ -139,7 +144,7 @@ function anaDetail(name, htmlResponse) {
             break
         }
     }
-    //修改进度速度字段
+    //修改进度速度等字段
     objectStore.openCursor().onsuccess = function (event) {
         let cursor = event.target.result
         if (cursor) {
@@ -149,6 +154,7 @@ function anaDetail(name, htmlResponse) {
                 updateData.avgprg = nprogress
                 updateData.avgspd = nspeed
                 updateData.totalspd = ntotalspeed
+                updateData.torrentlink = dtorrentdllink.attr("href")
                 const upRequest = cursor.update(updateData)
                 upRequest.onsuccess = function () {
                     // console.log('a record is updated successful')
@@ -219,8 +225,6 @@ function torrentFilter(config) {
                     } else if (parseInt(config.cddl.choose) === 2) {
                         if (dl <= parseInt(config.cddl.nogt)) {
                             // cursor.continue()
-                            console.log(config.cddl.nogt)
-                            console.log(dl)
                             goNext = true
                         }
                     }
@@ -248,8 +252,6 @@ function torrentFilter(config) {
             if (config.cdavgprg.enable) {
                 if (avgprg >= parseInt(config.cdavgprg.pg)) {
                     // cursor.continue()
-                    console.log(config.cdavgprg.pg)
-                    console.log(avgprg)
                     goNext = true
                 }
             }
@@ -332,7 +334,7 @@ function looprun() {
 
 function openDB() {
     let dbopenrequest = window.indexedDB.open("lin", 1)
-    console.log(dbopenrequest)
+    // console.log(dbopenrequest)
 
     dbopenrequest.onerror = function (event) {
         // console.log("fail")
@@ -347,49 +349,54 @@ function openDB() {
     dbopenrequest.onupgradeneeded = function (event) {
         // console.log("upg")
         let db = event.target.result
-        let objectStore = db.createObjectStore("torrents", {
-            keyPath: "name"
-        })
-        objectStore.createIndex("time", "time", {
-            unique: false
-        })
-        objectStore.createIndex("seed", "seed", {
-            unique: false
-        })
-        objectStore.createIndex("dl", "dl", {
-            unique: false
-        })
-        objectStore.createIndex("size", "size", {
-            unique: false
-        })
-        objectStore.createIndex("avgprg", "avgprg", {
-            unique: false
-        })
-        objectStore.createIndex("freetime", "freetime", {
-            unique: false
-        })
+        db.onerror = function(errorEvent) {
+            console.log("Error loading database.")
+        }
+        if (event.oldVersion < 1) {
+            let objectStore = db.createObjectStore("torrents", {
+                keyPath: "name"
+            })
+            objectStore.createIndex("time", "time", {
+                unique: false
+            })
+            objectStore.createIndex("seed", "seed", {
+                unique: false
+            })
+            objectStore.createIndex("dl", "dl", {
+                unique: false
+            })
+            objectStore.createIndex("size", "size", {
+                unique: false
+            })
+            objectStore.createIndex("avgprg", "avgprg", {
+                unique: false
+            })
+            objectStore.createIndex("freetime", "freetime", {
+                unique: false
+            })
 
-        objectStore = db.createObjectStore("fav", {
-            keyPath: "name"
-        })
-        objectStore.createIndex("time", "time", {
-            unique: false
-        })
-        objectStore.createIndex("seed", "seed", {
-            unique: false
-        })
-        objectStore.createIndex("dl", "dl", {
-            unique: false
-        })
-        objectStore.createIndex("size", "size", {
-            unique: false
-        })
-        objectStore.createIndex("avgprg", "avgprg", {
-            unique: false
-        })
-        objectStore.createIndex("freetime", "freetime", {
-            unique: false
-        })
+            objectStore = db.createObjectStore("fav", {
+                keyPath: "name"
+            })
+            objectStore.createIndex("time", "time", {
+                unique: false
+            })
+            objectStore.createIndex("seed", "seed", {
+                unique: false
+            })
+            objectStore.createIndex("dl", "dl", {
+                unique: false
+            })
+            objectStore.createIndex("size", "size", {
+                unique: false
+            })
+            objectStore.createIndex("avgprg", "avgprg", {
+                unique: false
+            })
+            objectStore.createIndex("freetime", "freetime", {
+                unique: false
+            })
+        }
     }
 }
 
