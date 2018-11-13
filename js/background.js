@@ -89,6 +89,8 @@ function anaList(htmlResponse) {
     let sprogress = "#form_torrent > table > tbody > tr:nth-child({0}) > td.t_name > table > tbody > tr > td:nth-child(2) > div > div > div"
     //torrent isfree
     let sfree = "#form_torrent > table > tbody > tr:nth-child({0}) > td.t_name > table > tbody > tr > td.discount > p > img"
+    //torrent free time remain
+    let sfreetime = "#form_torrent > table > tbody > tr:nth-child({0}) > td.t_name > table > tbody > tr > td.discount > span"
 
     //try indexedDB
     let trans = idb.transaction(["torrents"], "readwrite")
@@ -104,6 +106,8 @@ function anaList(htmlResponse) {
         let dcomplete = doc.find(String.format(scomplete, i))
         let dprogress = doc.find(String.format(sprogress, i))
         let dfree = doc.find(String.format(sfree, i))
+        let dfreetime = doc.find(String.format(sfreetime, i))
+        console.log(dfreetime.text())
 
         if (dfree.length > 0 && dfree.attr("alt").indexOf("%") == -1 &&
             dprogress.length === 0 //已经开始下载或下载过有进度条的则不进入筛选条件
@@ -118,6 +122,7 @@ function anaList(htmlResponse) {
                 dl: ddl.text() == "" ? 0 : ddl.text(),
                 complete: dcomplete.length > 0 ? dcomplete.text() : "0",
                 free: dfree.attr("alt"),
+                freetime: dfreetime.text(),
                 avgprg: null,
                 avgspd: null,
                 totalspd: null
@@ -393,17 +398,17 @@ function openDB() {
     console.log(dbopenrequest)
 
     dbopenrequest.onerror = function (event) {
-        console.log("fail")
-        console.log("Database error: " + event.target.errorCode)
+        // console.log("fail")
+        // console.log("Database error: " + event.target.errorCode)
     }
 
     dbopenrequest.onsuccess = function (event) {
-        console.log("success")
+        // console.log("success")
         idb = dbopenrequest.result
     }
 
     dbopenrequest.onupgradeneeded = function (event) {
-        console.log("upg")
+        // console.log("upg")
         let db = event.target.result
         let objectStore = db.createObjectStore("torrents", {
             keyPath: "name"
@@ -421,6 +426,9 @@ function openDB() {
             unique: false
         })
         objectStore.createIndex("avgprg", "avgprg", {
+            unique: false
+        })
+        objectStore.createIndex("freetime", "freetime", {
             unique: false
         })
 
@@ -442,6 +450,9 @@ function openDB() {
         objectStore.createIndex("avgprg", "avgprg", {
             unique: false
         })
+        objectStore.createIndex("freetime", "freetime", {
+            unique: false
+        })
     }
 }
 
@@ -460,7 +471,7 @@ function clearIDBStroe(IDBInstance, storeName) {
 
 function openOsusumeTab() {
     chrome.tabs.get(parseInt(localStorage.osusumetabid), function (tab) {
-        if (tab == undefined) {
+        if (chrome.runtime.lastError || tab == undefined) {
             chrome.tabs.create({
                 url: "view/ts.html",
                 active: true

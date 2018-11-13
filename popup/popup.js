@@ -6,7 +6,7 @@ this.st = function () {
 		methods: {
 			viewtorrent: function () {
 				chrome.tabs.get(parseInt(localStorage.osusumetabid), function (tab) {
-					if (tab == undefined) {
+					if (chrome.runtime.lastError || tab == undefined) {
 						chrome.tabs.create({
 							url: "view/ts.html"
 						}, function (tab) {
