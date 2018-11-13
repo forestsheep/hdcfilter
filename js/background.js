@@ -1,53 +1,3 @@
-String.format = function (src) {
-    if (arguments.length === 0) return null
-    let args = Array.prototype.slice.call(arguments, 1)
-    return src.replace(/\{(\d+)\}/g, function (m, i) {
-        return args[i]
-    })
-}
-
-function parseDate(DateString) {
-    let ptnyear = new RegExp(/\d+(?=年)/g)
-    let totalmin = 0
-    let rtyear
-    if ((rtyear = ptnyear.exec(DateString)) != null) {
-        totalmin += parseInt(rtyear[0]) * 60 * 24 * 30 * 12
-    }
-
-    let ptnmonth = new RegExp(/\d+(?=月)/g)
-    let rtmonth
-    if ((rtmonth = ptnmonth.exec(DateString)) != null) {
-        totalmin += parseInt(rtmonth[0]) * 60 * 24 * 30
-    }
-
-    let ptnday = new RegExp(/\d+(?=天)/g)
-    let rtday
-    if ((rtday = ptnday.exec(DateString)) != null) {
-        totalmin += parseInt(rtday[0]) * 60 * 24
-    }
-
-    let ptnhour = new RegExp(/\d+(?=时)/g)
-    let rthour
-    if ((rthour = ptnhour.exec(DateString)) != null) {
-        totalmin += parseInt(rthour[0]) * 60
-    }
-
-    let ptnminute = new RegExp(/\d+(?=分)/g)
-    let rtminute
-    if ((rtminute = ptnminute.exec(DateString)) != null) {
-        totalmin += parseInt(rtminute[0])
-    }
-    return totalmin
-}
-
-function parseSize(sizeString) {
-    let ptnsize = new RegExp(/\d+/g)
-    let rtsize
-    if ((rtsize = ptnsize.exec(sizeString)) != null) {
-        return parseInt(rtsize[0])
-    }
-}
-
 function vList() {
     $.ajax({
         url: "https://hdchina.org/torrents.php",
@@ -67,10 +17,10 @@ function anaList(htmlResponse) {
     let doc = $(htmlResponse)
     // username
     let duser = doc.find(".userinfo > p:nth-child(2) > span > a > b")
-    console.log(duser.text())
+    // console.log(duser.text())
     //userinfo url
     let duserlink = doc.find("#site_header > div.userinfo > p:nth-child(2) > span > a")
-    console.log(duserlink.attr("href"))
+    // console.log(duserlink.attr("href"))
     //torrent name1
     let sname1 = "#form_torrent > table > tbody > tr:nth-child({0}) > td.t_name > table > tbody > tr > td:nth-child(2) > h3 > a"
     //torrnet name2
@@ -97,17 +47,16 @@ function anaList(htmlResponse) {
     let objectStore = trans.objectStore("torrents")
     // 查多少条数据，如果是首页全部，i<102
     for (let i = 2; i < 102; i++) {
-        let dname1 = doc.find(String.format(sname1, i))
-        let dname2 = doc.find(String.format(sname2, i))
-        let dtime = doc.find(String.format(stime, i))
-        let dsize = doc.find(String.format(ssize, i))
-        let dseed = doc.find(String.format(sseed, i))
-        let ddl = doc.find(String.format(sdl, i))
-        let dcomplete = doc.find(String.format(scomplete, i))
-        let dprogress = doc.find(String.format(sprogress, i))
-        let dfree = doc.find(String.format(sfree, i))
-        let dfreetime = doc.find(String.format(sfreetime, i))
-        console.log(dfreetime.text())
+        let dname1 = doc.find(stringFormat(sname1, i))
+        let dname2 = doc.find(stringFormat(sname2, i))
+        let dtime = doc.find(stringFormat(stime, i))
+        let dsize = doc.find(stringFormat(ssize, i))
+        let dseed = doc.find(stringFormat(sseed, i))
+        let ddl = doc.find(stringFormat(sdl, i))
+        let dcomplete = doc.find(stringFormat(scomplete, i))
+        let dprogress = doc.find(stringFormat(sprogress, i))
+        let dfree = doc.find(stringFormat(sfree, i))
+        let dfreetime = doc.find(stringFormat(sfreetime, i))
 
         if (dfree.length > 0 && dfree.attr("alt").indexOf("%") == -1 &&
             dprogress.length === 0 //已经开始下载或下载过有进度条的则不进入筛选条件
@@ -175,9 +124,9 @@ function anaDetail(name, htmlResponse) {
     let nspeed = 0
     //由于表格不是固定，内容过多的情况下，数据可能是在第5条之后
     for (let i = 5; i < 99; i++) {
-        let davgspeed = doc.find(String.format(savgspeed, i))
-        let dtotalspeed = doc.find(String.format(stotalspeed, i))
-        let davgprogress = doc.find(String.format(savgprogress, i))
+        let davgspeed = doc.find(stringFormat(savgspeed, i))
+        let dtotalspeed = doc.find(stringFormat(stotalspeed, i))
+        let davgprogress = doc.find(stringFormat(savgprogress, i))
         if (davgprogress.text() != "") {
             nspeed = davgspeed.text()
             ntotalspeed = dtotalspeed.text()
@@ -194,7 +143,7 @@ function anaDetail(name, htmlResponse) {
     objectStore.openCursor().onsuccess = function (event) {
         let cursor = event.target.result
         if (cursor) {
-            console.log("Name: " + cursor.key)
+            // console.log("Name: " + cursor.key)
             if (cursor.key == name) {
                 const updateData = cursor.value
                 updateData.avgprg = nprogress
@@ -202,7 +151,7 @@ function anaDetail(name, htmlResponse) {
                 updateData.totalspd = ntotalspeed
                 const upRequest = cursor.update(updateData)
                 upRequest.onsuccess = function () {
-                    console.log('a record is updated successful')
+                    // console.log('a record is updated successful')
                 }
             }
             cursor.continue()
@@ -232,11 +181,9 @@ function torrentFilter(config) {
             let avgspd = cursor.value.avgspd
             let totalspd = cursor.value.totalspd
             let goNext = false
-            console.log(name)
             if (config.seedpdl.enable) {
                 if (seed !== 0 && dl / seed < config.seedpdl.ratio) {
                     // cursor.continue()
-                    console.log(1)
                     goNext = true
                 }
             } else {
@@ -244,19 +191,16 @@ function torrentFilter(config) {
                     if (parseInt(config.cdseed.choose) === 0) {
                         if (seed != parseInt(config.cdseed.noeq)) {
                             // cursor.continue()
-                            console.log(2)
                             goNext = true
                         }
                     } else if (parseInt(config.cdseed.choose) === 1) {
                         if (seed >= parseInt(config.cdseed.nolt)) {
                             // cursor.continue()
-                            console.log(3)
                             goNext = true
                         }
                     } else if (parseInt(config.cdseed.choose) === 2) {
                         if (seed <= parseInt(config.cdseed.nogt)) {
                             // cursor.continue()
-                            console.log(4)
                             goNext = true
                         }
                     }
@@ -265,19 +209,16 @@ function torrentFilter(config) {
                     if (parseInt(config.cddl.choose) === 0) {
                         if (dl != parseInt(config.cddl.noeq)) {
                             // cursor.continue()
-                            console.log(5)
                             goNext = true
                         }
                     } else if (parseInt(config.cddl.choose) === 1) {
                         if (dl >= parseInt(config.cddl.nolt)) {
                             // cursor.continue()
-                            console.log(6)
                             goNext = true
                         }
                     } else if (parseInt(config.cddl.choose) === 2) {
                         if (dl <= parseInt(config.cddl.nogt)) {
                             // cursor.continue()
-                            console.log(7)
                             console.log(config.cddl.nogt)
                             console.log(dl)
                             goNext = true
@@ -288,7 +229,6 @@ function torrentFilter(config) {
             if (config.elapsedtime.enable) {
                 if (time > parseInt(config.elapsedtime.year) * 518400 + parseInt(config.elapsedtime.month) * 43200 + parseInt(config.elapsedtime.day) * 1440 + parseInt(config.elapsedtime.hour) * 60 + parseInt(config.elapsedtime.minute)) {
                     // cursor.continue()
-                    console.log(8)
                     goNext = true
                 }
             }
@@ -296,13 +236,11 @@ function torrentFilter(config) {
                 if (config.cdsize.choose === 0) {
                     if (size > parseInt(config.cdsize.nolt)) {
                         // cursor.continue()
-                        console.log(9)
                         goNext = true
                     }
                 } else if (config.cdsize.choose === 1) {
                     if (size < parseInt(config.cdsize.nogt)) {
                         // cursor.continue()
-                        console.log(10)
                         goNext = true
                     }
                 }
@@ -310,7 +248,6 @@ function torrentFilter(config) {
             if (config.cdavgprg.enable) {
                 if (avgprg >= parseInt(config.cdavgprg.pg)) {
                     // cursor.continue()
-                    console.log(11)
                     console.log(config.cdavgprg.pg)
                     console.log(avgprg)
                     goNext = true
@@ -319,14 +256,14 @@ function torrentFilter(config) {
             if (goNext) {
                 cursor.continue()
             } else {
-                console.log("开始推荐")
-                console.log(name)
-                console.log(name2)
-                console.log("分钟:" + time)
-                console.log("平均进度" + avgprg)
-                console.log("seed:" + seed + "  dl:" + dl)
+                // console.log("开始推荐")
+                // console.log(name)
+                // console.log(name2)
+                // console.log("分钟:" + time)
+                // console.log("平均进度" + avgprg)
+                // console.log("seed:" + seed + "  dl:" + dl)
                 count++
-                console.log("count:" + count)
+                // console.log("count:" + count)
                 // console.log(cursor.value)
                 let questadd = objectStore1.put(cursor.value)
                 questadd.onsuccess = function (event) {
@@ -461,11 +398,11 @@ function clearIDBStroe(IDBInstance, storeName) {
     let os = trans.objectStore(storeName)
     let clearq = os.clear()
     clearq.onsuccess = function (event) {
-        console.log(storeName + "clear all")
+        // console.log(storeName + "clear all")
     }
     clearq.onerror = function (event) {
-        console.log(storeName + "clear fail")
-        console.log("Database error: " + event.target.errorCode)
+        // console.log(storeName + "clear fail")
+        // console.log("Database error: " + event.target.errorCode)
     }
 }
 
