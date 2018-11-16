@@ -48,7 +48,10 @@ this.st = function() {
 					enable: true,
 					pg: 20
 				}
-			}
+			},
+			show_right1 : true,
+			show_right2 : false,
+			show_right3 : false
 		},
 		ready: function() {
 			if (localStorage.config != null) {
@@ -60,6 +63,30 @@ this.st = function() {
 			},
 			saveconfig: function () {
 				localStorage.config = JSON.stringify(this.config)
+			},
+			one: function() {
+				if (!this.show_right1) {
+					this.show_right1 = true
+					this.show_right2 = false
+					this.show_right3 = false
+				} else {
+				}
+			},
+			two: function() {
+				if (!this.show_right2) {
+					this.show_right2 = true
+					this.show_right1 = false
+					this.show_right3 = false
+				} else {
+				}
+			},
+			three: function() {
+				if (!this.show_righ3) {
+					this.show_right3 = true
+					this.show_right1 = false
+					this.show_right2 = false
+				} else {
+				}
 			}
 		}
 	})

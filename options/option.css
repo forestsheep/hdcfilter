@@ -88,12 +88,12 @@ tr.even td.empty {
 }
 
 .checkboxOne {
-	width: 40px;
-	height: 10px;
-	background: #555;
-	margin: 20px 80px;
-	position: relative;
-	border-radius: 3px;
+    width: 40px;
+    height: 10px;
+    background: #555;
+    margin: 20px 80px;
+    position: relative;
+    border-radius: 3px;
 }
 
 input {
@@ -140,6 +140,7 @@ input.checkbox {
     -webkit-appearance: checkbox;
     cursor: auto;
 }
+
 input.shortnumber {
     width: 30px;
     text-align: right;
@@ -178,7 +179,8 @@ button {
     text-rendering: auto;
 }
 
-.options_image{
-    display:inline-block;
-    padding-top:10px;
+.options_image {
+    display: inline-block;
+    padding-top: 10px;
 }
+
