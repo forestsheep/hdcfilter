@@ -14,21 +14,35 @@
 </head>
 
 <body>
-    <div class="row" id="main">
+    <div class="row" id="filter">
         <header class="text-center">
-            <img src="../icons/seed256.png" alt="Logo" class="logo">
+            <img class="title_icon" src="../icons/seed256.png" alt="Logo">
         </header>
-        <form class="form-horizontal options-form ng-pristine ng-valid ng-valid-min ng-valid-max">
-            <div class="col-lg-12">
-                <div class="well options-b">
-                    <div class="lead text-muted text-center">
-                        Filter
+        <div class="left_menu">
+            <ul>
+                <li class="dd-item">
+                        <span v-on:click="one">one111</span>
+                </li>
+                <li class="dd-item">
+                        <span v-on:click="two">two  </span>
+                </li>
+                <li class="dd-item">
+                        <span v-on:click="three">three333</span>
+                </li>
+            </ul>
+        </div>
+        <div class="right_content" v-if="show_right1">
+            <form class="form-horizontal options-form ng-pristine ng-valid ng-valid-min ng-valid-max">
+                <div class="col-lg-12">
+                    <div class="well options-b">
+                        <div class="lead text-muted text-center">
+                            Filter
+                        </div>
+                        最后的筛选条件为所有条件的交集，也就是条件1&&条件2&&...&&条件n
                     </div>
-                    最后的筛选条件为所有条件的交集，也就是条件1&&条件2&&...&&条件n
                 </div>
-            </div>
-        </form>
-        <div id="filter">
+            </form>
+
             <form class="form-horizontal options-form ng-pristine ng-valid ng-valid-min ng-valid-max">
                 <div class="col-md-4">
                     <div class="well options-b">
@@ -284,6 +298,12 @@
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="right_content" v-if="show_right2">
+            menu2
+        </div>
+        <div class="right_content" v-if="show_right3">
+            menu3
         </div>
     </div>
 </body>

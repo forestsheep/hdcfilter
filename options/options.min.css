@@ -71,3 +71,37 @@ img.logo {
     margin-top: 20px;
     margin-bottom: 50px
 }
+
+img.title_icon {
+    margin-top: 20px;
+    width: 32px;
+    height: 32px
+}
+
+.left_menu {
+    left: 50px;
+    position: absolute;
+    width: fit-content;
+}
+
+.right_content {
+    position: absolute;
+    left: 300px;
+    /* width: 700px */
+}
+
+li.dd-item {
+    left: 0px;
+    /* position: absolute; */
+    cursor: pointer;
+    display: block;
+    text-align: left;
+    margin-left: -10px;
+    margin-bottom: 8px;
+    font-size: 22px;
+    padding-left: 8px;
+}
+
+li.dd-item:hover {
+    background-color: sandybrown
+}
