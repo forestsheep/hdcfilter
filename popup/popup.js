@@ -6,6 +6,11 @@ this.st = function () {
 		methods: {
 			viewtorrent: function () {
 				openOsusumePage()
+			},
+			viewoption: function () {
+				chrome.tabs.create({
+					url: "options/option.html"
+				})
 			}
 		}
 	})

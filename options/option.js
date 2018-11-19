@@ -1,9 +1,9 @@
-this.st = function() {
+this.st = function () {
 
-	String.format = function(src){
+	String.format = function (src) {
 		if (arguments.length == 0) return null;
 		var args = Array.prototype.slice.call(arguments, 1);
-		return src.replace(/\{(\d+)\}/g, function(m, i){
+		return src.replace(/\{(\d+)\}/g, function (m, i) {
 			return args[i]
 		})
 	}
@@ -47,46 +47,44 @@ this.st = function() {
 				cdavgprg: {
 					enable: true,
 					pg: 20
-				}
+				},
+				cmcheckloop: 5
 			},
-			show_right1 : true,
-			show_right2 : false,
-			show_right3 : false
+			general_visible: true,
+			filter_visible: false,
 		},
-		ready: function() {
+		ready: function () {
 			if (localStorage.config != null) {
 				this.config = JSON.parse(localStorage.config)
 			}
 		},
 		methods: {
-			do1: function() {
-			},
+			do1: function () {},
 			saveconfig: function () {
 				localStorage.config = JSON.stringify(this.config)
 			},
-			one: function() {
-				if (!this.show_right1) {
-					this.show_right1 = true
-					this.show_right2 = false
-					this.show_right3 = false
-				} else {
+			show_general: function () {
+				if (!this.general_visible) {
+					this.general_visible = true
+					this.filter_visible = false
 				}
 			},
-			two: function() {
-				if (!this.show_right2) {
-					this.show_right2 = true
-					this.show_right1 = false
-					this.show_right3 = false
-				} else {
+			show_filter: function () {
+				if (!this.filter_visible) {
+					this.filter_visible = true
+					this.general_visible = false
 				}
 			},
-			three: function() {
-				if (!this.show_righ3) {
-					this.show_right3 = true
-					this.show_right1 = false
-					this.show_right2 = false
-				} else {
-				}
+			checkAlarmUpdate: function () {
+				localStorage.config = JSON.stringify(this.config)
+				chrome.alarms.clear("mainloop", function (wasCleared) {
+					if (wasCleared) {
+						chrome.alarms.create("mainloop", {
+							delayInMinutes: 1,
+							periodInMinutes: parseInt(vm.config.cmcheckloop)
+						})
+					}
+				})
 			}
 		}
 	})

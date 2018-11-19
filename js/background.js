@@ -439,17 +439,9 @@ chrome.alarms.create("mainloop", {
     periodInMinutes: 5
 })
 
-chrome.alarms.create("testloop", {
-    delayInMinutes: 1,
-    periodInMinutes: 1
-})
-
 chrome.alarms.onAlarm.addListener(function (alarm) {
     if (alarm.name === "mainloop") {
         looprun()
-    }
-    if (alarm.name === "testloop") {
-
     }
 })
 
