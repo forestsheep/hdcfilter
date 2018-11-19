@@ -20,18 +20,15 @@
         </header>
         <div class="left_menu">
             <ul>
-                <li class="dd-item">
-                        <span v-on:click="one">one111</span>
+                <li v-on:click="show_general" class="dd-item">
+                    <span>通用</span>
                 </li>
-                <li class="dd-item">
-                        <span v-on:click="two">two  </span>
-                </li>
-                <li class="dd-item">
-                        <span v-on:click="three">three333</span>
+                <li v-on:click="show_filter" class="dd-item">
+                    <span>筛选</span>
                 </li>
             </ul>
         </div>
-        <div class="right_content" v-if="show_right1">
+        <div class="right_content" v-if="filter_visible">
             <form class="form-horizontal options-form ng-pristine ng-valid ng-valid-min ng-valid-max">
                 <div class="col-lg-12">
                     <div class="well options-b">
@@ -299,11 +296,38 @@
                 </div>
             </form>
         </div>
-        <div class="right_content" v-if="show_right2">
-            menu2
-        </div>
-        <div class="right_content" v-if="show_right3">
-            menu3
+
+        <div class="right_content" v-if="general_visible">
+            <form class="form-horizontal options-form ng-pristine ng-valid ng-valid-min ng-valid-max">
+                <div class="col-lg-12">
+                    <div class="well options-b">
+                        <div class="lead text-muted text-center">
+                            通用
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal options-form ng-pristine ng-valid ng-valid-min ng-valid-max">
+                <div class="col-md-3">
+                    <div class="well options-b">
+                        <div class="lead text-muted">
+                            <div class="checkbox">
+                                <label>
+                                    检测间隔（分钟）
+                                </label>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="radio col-sm-7"></div>
+                            <div class="radio col-sm-5">
+                                <input type="number" min="0" max="9999" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min ng-valid-max text-right"
+                                    v-model.number="config.cmcheckloop" v-on:change="checkAlarmUpdate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </body>
