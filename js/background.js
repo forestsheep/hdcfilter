@@ -1,6 +1,6 @@
-function vList() {
+function vList(pageSwitch) {
     $.ajax({
-        url: "https://hdchina.org/torrents.php",
+        url: "https://hdchina.org/torrents.php?boardid=" + pageSwitch,
         method: "get",
         async: true,
         success: function (data, textStatus, jqXHR) {
@@ -317,18 +317,24 @@ function looprun() {
         clearIDBStroe(idb, "fav")
     }, 200)
     setTimeout(() => {
-        vList()
+        vList(1)
     }, 2000)
     setTimeout(() => {
-        ergRecord()
+        vList(2)
     }, 10000)
+    setTimeout(() => {
+        vList(3)
+    }, 18000)
+    setTimeout(() => {
+        ergRecord()
+    }, 26000)
     setTimeout(() => {
         if (localStorage.config != null) {
             // console.log(JSON.parse(localStorage.config))
             let config_jsobj = JSON.parse(localStorage.config)
             torrentFilter(config_jsobj)
         }
-    }, 20000)
+    }, 36000)
 }
 // console.log(JSON.parse(localStorage.config))
 
