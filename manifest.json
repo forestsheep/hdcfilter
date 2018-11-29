@@ -33,5 +33,6 @@
         "https://hdchina.org/*",
         "http://hdchina.org/*"
     ],
-    "version": "0.0.0.2"
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    "version": "0.0.0.3"
 }
