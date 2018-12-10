@@ -64,7 +64,7 @@ function anaList(htmlResponse) {
             objectStore.add({
                 name: dname1.text(),
                 name2: dname2.text(),
-                url: dname1.attr("href"),
+                url: "https://hdchina.org/" + dname1.attr("href"),
                 time: dtime.text(),
                 size: dsize.text(),
                 seed: dseed.text() == "" ? 0 : dseed.text(),
@@ -99,7 +99,7 @@ function ergRecord() {
 
 function vDetail(name, innerurl) {
     $.ajax({
-        url: "https://hdchina.org/" + innerurl,
+        url: innerurl,
         method: "get",
         async: true,
         success: function (data, textStatus, jqXHR) {
@@ -126,7 +126,7 @@ function anaDetail(name, htmlResponse) {
     let ntotalspeed = 0
     let nspeed = 0
     let dtorrentdllink = doc.find(storrentdllink)
-    // console.log("种子地址" + dtorrentdllink.attr("href"))
+    console.log("种子地址" + dtorrentdllink.attr("href"))
     //由于表格不是固定，内容过多的情况下，数据可能是在第5条之后
     for (let i = 5; i < 99; i++) {
         let davgspeed = doc.find(stringFormat(savgspeed, i))
@@ -150,11 +150,12 @@ function anaDetail(name, htmlResponse) {
         if (cursor) {
             // console.log("Name: " + cursor.key)
             if (cursor.key == name) {
+                console.log(dtorrentdllink.attr("href"))
                 const updateData = cursor.value
                 updateData.avgprg = nprogress
                 updateData.avgspd = nspeed
                 updateData.totalspd = ntotalspeed
-                updateData.torrentlink = dtorrentdllink.attr("href")
+                updateData.torrentlink = "https://hdchina.org/" + dtorrentdllink.attr("href")
                 const upRequest = cursor.update(updateData)
                 upRequest.onsuccess = function () {
                     // console.log('a record is updated successful')
