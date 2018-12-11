@@ -1,15 +1,20 @@
 function vList(pageSwitch) {
-    $.ajax({
-        url: "https://hdchina.org/torrents.php?boardid=" + pageSwitch,
-        method: "get",
-        async: true,
-        success: function (data, textStatus, jqXHR) {
-            anaList(data)
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            // console.log('error: ' + jqXHR.getAllResponseHeaders() + textStatus + errorThrown)
-            // console.log(jqXHR.responseText)
-        }
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "https://hdchina.org/torrents.php?boardid=" + pageSwitch,
+            method: "get",
+            async: true,
+            success: function (data, textStatus, jqXHR) {
+                anaList(data)
+                setTimeout(() => {
+                    resolve()
+                }, 2000);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // console.log('error: ' + jqXHR.getAllResponseHeaders() + textStatus + errorThrown)
+                // console.log(jqXHR.responseText)
+            }
+        })
     })
 }
 
@@ -83,18 +88,23 @@ function anaList(htmlResponse) {
 }
 
 function ergRecord() {
-    let trans = idb.transaction(["torrents"], "readwrite")
-    let objectStore = trans.objectStore("torrents")
-    objectStore.openCursor().onsuccess = function (event) {
-        let cursor = event.target.result
-        if (cursor) {
-            // console.log("Name: " + cursor.key)
-            vDetail(cursor.key, cursor.value.url)
-            cursor.continue()
-        } else {
-            // console.log("No more entries!")
+    return new Promise((resolve, reject) => {
+        let trans = idb.transaction(["torrents"], "readwrite")
+        let objectStore = trans.objectStore("torrents")
+        objectStore.openCursor().onsuccess = function (event) {
+            let cursor = event.target.result
+            if (cursor) {
+                // console.log("Name: " + cursor.key)
+                vDetail(cursor.key, cursor.value.url)
+                cursor.continue()
+            } else {
+                // console.log("No more entries!")
+            }
         }
-    }
+        setTimeout(() => {
+            resolve()
+        }, 20000);
+    })
 }
 
 function vDetail(name, innerurl) {
@@ -110,6 +120,7 @@ function vDetail(name, innerurl) {
 }
 
 function anaDetail(name, htmlResponse) {
+    console.log("anaing: " + name)
     let doc = $(htmlResponse)
     //平均速度
     let savgspeed = "#site_content > div.details_box > table.table_details > tbody > tr:nth-child({0}) > td.rowfollow > span:nth-child(3) > b"
@@ -126,7 +137,7 @@ function anaDetail(name, htmlResponse) {
     let ntotalspeed = 0
     let nspeed = 0
     let dtorrentdllink = doc.find(storrentdllink)
-    console.log("种子地址" + dtorrentdllink.attr("href"))
+    // console.log("种子地址" + dtorrentdllink.attr("href"))
     //由于表格不是固定，内容过多的情况下，数据可能是在第5条之后
     for (let i = 5; i < 99; i++) {
         let davgspeed = doc.find(stringFormat(savgspeed, i))
@@ -150,7 +161,7 @@ function anaDetail(name, htmlResponse) {
         if (cursor) {
             // console.log("Name: " + cursor.key)
             if (cursor.key == name) {
-                console.log(dtorrentdllink.attr("href"))
+                // console.log(dtorrentdllink.attr("href"))
                 const updateData = cursor.value
                 updateData.avgprg = nprogress
                 updateData.avgspd = nspeed
@@ -311,113 +322,43 @@ chrome.notifications.onButtonClicked.addListener(function (id, buttonIndex) {
     chrome.notifications.clear(id)
 })
 
+function clearTorrents() {
+    return new Promise((resolve, reject) => {
+        resolve("torrents")
+    })
+}
+
+function clearFavs() {
+    return new Promise((resolve, reject) => {
+        resolve("fav")
+    })
+}
+
+function vList1() {
+    return new Promise((resolve, reject) => {
+        resolve("1")
+    })
+}
+
+function vList2() {
+    return new Promise((resolve, reject) => {
+        resolve("2")
+    })
+}
+
+function vList3() {
+    return new Promise((resolve, reject) => {
+        resolve("3")
+    })
+}
+
 function looprun() {
-    //上来先清一下数据，为避免数据库打开延迟200ms
-    setTimeout(() => {
-        clearIDBStroe(idb, "torrents")
-        clearIDBStroe(idb, "fav")
-    }, 200)
-    setTimeout(() => {
-        vList(1)
-    }, 2000)
-    setTimeout(() => {
-        vList(2)
-    }, 10000)
-    setTimeout(() => {
-        vList(3)
-    }, 18000)
-    setTimeout(() => {
-        ergRecord()
-    }, 26000)
-    setTimeout(() => {
+    openDB().then(clearTorrents).then(clearIDBStroe).then(clearFavs).then(clearIDBStroe).then(vList1).then(vList).then(vList2).then(vList).then(vList3).then(vList).then(ergRecord).then(function () {
         if (localStorage.config != null) {
-            // console.log(JSON.parse(localStorage.config))
             let config_jsobj = JSON.parse(localStorage.config)
             torrentFilter(config_jsobj)
         }
-    }, 36000)
-}
-// console.log(JSON.parse(localStorage.config))
-
-function openDB() {
-    let dbopenrequest = window.indexedDB.open("lin", 1)
-    // console.log(dbopenrequest)
-
-    dbopenrequest.onerror = function (event) {
-        // console.log("fail")
-        // console.log("Database error: " + event.target.errorCode)
-    }
-
-    dbopenrequest.onsuccess = function (event) {
-        // console.log("success")
-        idb = dbopenrequest.result
-    }
-
-    dbopenrequest.onupgradeneeded = function (event) {
-        // console.log("upg")
-        let db = event.target.result
-        db.onerror = function(errorEvent) {
-            console.log("Error loading database.")
-        }
-        if (event.oldVersion < 1) {
-            let objectStore = db.createObjectStore("torrents", {
-                keyPath: "name"
-            })
-            objectStore.createIndex("time", "time", {
-                unique: false
-            })
-            objectStore.createIndex("seed", "seed", {
-                unique: false
-            })
-            objectStore.createIndex("dl", "dl", {
-                unique: false
-            })
-            objectStore.createIndex("size", "size", {
-                unique: false
-            })
-            objectStore.createIndex("avgprg", "avgprg", {
-                unique: false
-            })
-            objectStore.createIndex("freetime", "freetime", {
-                unique: false
-            })
-
-            objectStore = db.createObjectStore("fav", {
-                keyPath: "name"
-            })
-            objectStore.createIndex("time", "time", {
-                unique: false
-            })
-            objectStore.createIndex("seed", "seed", {
-                unique: false
-            })
-            objectStore.createIndex("dl", "dl", {
-                unique: false
-            })
-            objectStore.createIndex("size", "size", {
-                unique: false
-            })
-            objectStore.createIndex("avgprg", "avgprg", {
-                unique: false
-            })
-            objectStore.createIndex("freetime", "freetime", {
-                unique: false
-            })
-        }
-    }
-}
-
-function clearIDBStroe(IDBInstance, storeName) {
-    let trans = IDBInstance.transaction([storeName], "readwrite")
-    let os = trans.objectStore(storeName)
-    let clearq = os.clear()
-    clearq.onsuccess = function (event) {
-        // console.log(storeName + "clear all")
-    }
-    clearq.onerror = function (event) {
-        // console.log(storeName + "clear fail")
-        // console.log("Database error: " + event.target.errorCode)
-    }
+    })
 }
 
 function openOsusumeTab() {
@@ -452,6 +393,4 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
     }
 })
 
-let idb
-openDB()
 looprun()

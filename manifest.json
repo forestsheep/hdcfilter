@@ -3,8 +3,10 @@
         "scripts": [
             "js/jquery-2.0.0.min.js",
             "js/jquery.cookie.js",
-            "js/background.js",
-            "js/util.js"
+            "js/dbop.js",
+            "js/util.js",
+            "js/common.js",
+            "js/background.js"
         ]
     },
     "description": "发现好种子",
@@ -34,5 +36,5 @@
         "http://hdchina.org/*"
     ],
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-    "version": "0.0.0.3"
+    "version": "0.0.0.5"
 }

@@ -2,7 +2,7 @@ this.st = function () {
 	var vm = new Vue({
 		el: '#vt',
 		data: {},
-		ready: function () {},
+		mounted: function () {},
 		methods: {
 			viewtorrent: function () {
 				openOsusumePage()
