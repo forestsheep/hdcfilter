@@ -53,7 +53,7 @@ this.st = function () {
 			general_visible: true,
 			filter_visible: false,
 		},
-		ready: function () {
+		mounted: function () {
 			if (localStorage.config != null) {
 				this.config = JSON.parse(localStorage.config)
 			}
