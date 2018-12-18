@@ -41,10 +41,10 @@ function parseDate(DateString) {
 }
 
 function parseSize(sizeString) {
-    let ptnsize = new RegExp(/\d+/g)
+    let ptnsize = new RegExp(/(-?\d+)(\.\d+)?/g)
     let rtsize
     if ((rtsize = ptnsize.exec(sizeString)) != null) {
-        return parseInt(rtsize[0])
+        return parseFloat(rtsize[0])
     }
 }
 

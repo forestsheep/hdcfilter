@@ -6,11 +6,15 @@
     <script src="../js/jquery.cookie.js"></script>
     <script src="../js/vue.js"></script>
     <script src="../js/common.js"></script>
+    <script src="../js/util.js"></script>
     <script src="../js/dbop.js"></script>
     <script src="ts.js"></script>
+
     <title>
         推荐种子
     </title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+        crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../options/vendors.min.css" />
     <link rel="stylesheet" type="text/css" href="../options/options.min.css" />
     <link rel="stylesheet" type="text/css" href="ts.css" />
@@ -23,8 +27,34 @@
             推荐种子
         </div>
         <div class="center">
-            <button class="button button-red" v-on:click="noMoreRemindAll">忽略所有</button>
+            <button class="button button-red" v-on:click="noMoreRemindAll" v-if="torrents.length > 0">忽略所有</button>
             <button class="button button-green" v-on:click="clearNoMoreRemindAll">清空忽略列表</button>
+        </div>
+        <div v-if="torrents.length>0">
+            <button class="button button-blue" v-on:click="sortByReleaseTime">
+                发布时间
+                <i class="fas" v-bind:class="{'fa-arrow-up': sort.release_time, 'fa-arrow-down': !sort.release_time}" v-if="sort.release_time!=null"></i>
+            </button>
+            <button class="button button-blue" v-on:click="sortBySize">
+                大小
+                <i class="fas" v-bind:class="{'fa-arrow-up': sort.size, 'fa-arrow-down': !sort.size}" v-if="sort.size!=null"></i>
+            </button>
+            <button class="button button-blue" v-on:click="sortBySeed">
+                种子数
+                <i class="fas" v-bind:class="{'fa-arrow-up': sort.seed, 'fa-arrow-down': !sort.seed}" v-if="sort.seed!=null"></i>
+            </button>
+            <button class="button button-blue" v-on:click="sortByDownloading">
+                下载数
+                <i class="fas" v-bind:class="{'fa-arrow-up': sort.downloading, 'fa-arrow-down': !sort.downloading}" v-if="sort.downloading!=null"></i>
+            </button>
+            <button class="button button-blue" v-on:click="sortByAvgPrg">
+                完成度
+                <i class="fas" v-bind:class="{'fa-arrow-up': sort.avg_prg, 'fa-arrow-down': !sort.avg_prg}" v-if="sort.avg_prg!=null"></i>
+            </button>
+            <button class="button button-blue" v-on:click="sortByFreeRemain">
+                免费剩余时间
+                <i class="fas" v-bind:class="{'fa-arrow-up': sort.free_remain, 'fa-arrow-down': !sort.free_remain}" v-if="sort.free_remain!=null"></i>
+            </button>
         </div>
         <div v-for="(item, index) in torrents" class="col-md-12 mlist_group">
             <div class="list-group-item">

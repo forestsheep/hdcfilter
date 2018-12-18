@@ -116,3 +116,9 @@ function minus(array1, array2) {
     }
     return result
 }
+
+function sortByReleaseTime(a, b) {
+    console.log(a)
+    console.log(b)
+    return true
+}
