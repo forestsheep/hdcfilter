@@ -195,7 +195,7 @@ this.st = function () {
                     this.sort.free_remain = false
                 } else {
                     this.torrents.sort(function (a, b) {
-                        if (parseDate(a.freetime) < parseDate(b.freetime)) {
+                        if (parseDate(a.freetime) > parseDate(b.freetime)) {
                             return 1
                         } else {
                             return -1
