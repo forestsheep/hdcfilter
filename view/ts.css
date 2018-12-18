@@ -67,6 +67,11 @@ strong {
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
+.button .fas {
+    color: #bfbfbf;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
 .button-blue {
     background-color: #42b0e3;
     background-image: linear-gradient(to bottom, #42b0e3, #2ba9e3);
@@ -89,6 +94,11 @@ strong {
 }
 
 .button-blue .fa {
+    color: #107db0;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.button-blue .fas {
     color: #107db0;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
 }
