@@ -26,7 +26,7 @@
             <button class="button button-red" v-on:click="noMoreRemindAll">忽略所有</button>
             <button class="button button-green" v-on:click="clearNoMoreRemindAll">清空忽略列表</button>
         </div>
-        <div v-for="(item, index) in torrents" class="col-md-12 list-group">
+        <div v-for="(item, index) in torrents" class="col-md-12 mlist_group">
             <div class="list-group-item">
                 <a target="_blank" :href="item.url">{{ item.name }}</a>
                 <img class="torrent_dl_icon" src="../icons/dl.png" alt="download">
