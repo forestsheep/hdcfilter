@@ -108,29 +108,6 @@ function getOsusumeItems(storeName) {
             a2 = event.target.result
         }
         setTimeout(() => {
-            // console.log(minus(a1, a2))
-            // resolve(intersection(a1, a2))
-            resolve(minus(a1, a2))
-        }, 1000);
-    })
-}
-
-function getOsusumeItems(storeName) {
-    return new Promise((resolve, reject) => {
-        let trans = idb.transaction(["fav", "no_more_remind"], "readwrite")
-        let a1 = []
-        let a2 = []
-        let objectStoreFav = trans.objectStore("fav")
-        objectStoreFav.getAll().onsuccess = function (event) {
-            a1 = event.target.result
-        }
-        let objectStoreRemind = trans.objectStore("no_more_remind")
-        objectStoreRemind.getAll().onsuccess = function (event) {
-            a2 = event.target.result
-        }
-        setTimeout(() => {
-            // console.log(minus(a1, a2))
-            // resolve(intersection(a1, a2))
             resolve(minus(a1, a2))
         }, 300);
     })
