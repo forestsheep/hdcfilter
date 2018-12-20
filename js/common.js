@@ -102,11 +102,15 @@ function intersection(array1, array2) {
     return result
 }
 
+function compareItemByUrl(o1, o2) {
+    return o1.url == o2.url 
+}
+
 function minus(array1, array2) {
     let result = []
     for (i in array1) {
         for (j in array2) {
-            if(deepCompare(array1[i], array2[j])) {
+            if(compareItemByUrl(array1[i], array2[j])) {
                 array1.splice(i, 1)
             }
         }
