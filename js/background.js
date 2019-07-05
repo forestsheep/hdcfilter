@@ -127,7 +127,7 @@ function anaDetail(name, htmlResponse) {
     let stotalspeed = "#site_content > div.details_box > table.table_details > tbody > tr:nth-child({0}) > td.rowfollow > span:nth-child(4) > b"
     let savgprogress = "#site_content > div.details_box > table.table_details > tbody > tr:nth-child({0}) > td.rowfollow > span:nth-child(1)"
 
-    let storrentdllink = "#site_content > div.details_box > table.movie_details > tbody > tr:nth-child(2) > td.info_box > ul:nth-child(2) > li > a.torrentdown_button"
+    let storrentdllink = "#site_content > div.details_box > table.movie_details > tbody > tr:nth-child(2) > td.info_box > ul:nth-child(1) > li > a.torrentdown_button"
 
     let trans = idb.transaction(["torrents"], "readwrite")
     let objectStore = trans.objectStore("torrents")
