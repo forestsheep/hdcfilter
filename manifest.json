@@ -1,11 +1,10 @@
 {
     "background": {
         "scripts": [
-            "js/jquery-2.0.0.min.js",
-            "js/jquery.cookie.js",
-            "js/dbop.js",
-            "js/util.js",
-            "js/common.js",
+            "lib/jquery-3.4.1.js",
+            "util/dbop.js",
+            "util/util.js",
+            "util/common.js",
             "js/background.js"
         ]
     },
