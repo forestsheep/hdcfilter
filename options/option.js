@@ -50,8 +50,8 @@ this.st = function () {
 				},
 				cmcheckloop: 5
 			},
-			general_visible: true,
-			filter_visible: false,
+			general_visible: false,
+			filter_visible: true,
 		},
 		mounted: function () {
 			if (localStorage.config != null) {
