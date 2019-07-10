@@ -41,10 +41,15 @@ function parseDate(DateString) {
 }
 
 function parseSize(sizeString) {
-    let ptnsize = new RegExp(/(-?\d+)(\.\d+)?/g)
+    let ptnsizegb = new RegExp(/((-?\d+)(\.\d+))\s*gb/ig)
+    let ptnsizemb = new RegExp(/((-?\d+)(\.\d+))\s*mb/ig)
     let rtsize
-    if ((rtsize = ptnsize.exec(sizeString)) != null) {
-        return parseFloat(rtsize[0])
+    if ((rtsize = ptnsizegb.exec(sizeString)) != null) {
+        return parseFloat(rtsize[1])
+    } else if ((rtsize = ptnsizemb.exec(sizeString)) != null) {
+        return parseFloat(rtsize[1]) / 1024
+    } else {
+        return -9999
     }
 }
 

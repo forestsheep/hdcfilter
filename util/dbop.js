@@ -11,7 +11,7 @@ function openDB() {
         }
 
         dbopenrequest.onsuccess = function (event) {
-            console.log("success")
+            // console.log("success")
             idb = dbopenrequest.result
             resolve()
         }

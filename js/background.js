@@ -120,7 +120,7 @@ function vDetail(name, innerurl) {
 }
 
 function anaDetail(name, htmlResponse) {
-    console.log("anaing: " + name)
+    // console.log("anaing: " + name)
     let doc = $(htmlResponse)
     //平均速度
     let savgspeed = "#site_content > div.details_box > table.table_details > tbody > tr:nth-child({0}) > td.rowfollow > span:nth-child(3) > b"
