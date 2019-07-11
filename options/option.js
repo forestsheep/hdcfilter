@@ -57,6 +57,18 @@ this.st = function () {
 			if (localStorage.config != null) {
 				this.config = JSON.parse(localStorage.config)
 			}
+			if (localStorage.general_visible != null) {
+				if (localStorage.general_visible == "true") {
+					this.general_visible = true
+					this.filter_visible = false
+				}
+			}
+			if (localStorage.filter_visible != null) {
+				if (localStorage.filter_visible == "true") {
+					this.filter_visible = true
+					this.general_visible = false
+				}
+			}
 		},
 		methods: {
 			do1: function () {},
@@ -67,12 +79,16 @@ this.st = function () {
 				if (!this.general_visible) {
 					this.general_visible = true
 					this.filter_visible = false
+					localStorage.general_visible = true
+					localStorage.filter_visible = false
 				}
 			},
 			show_filter: function () {
 				if (!this.filter_visible) {
 					this.filter_visible = true
 					this.general_visible = false
+					localStorage.filter_visible = true
+					localStorage.general_visible = false
 				}
 			},
 			checkAlarmUpdate: function () {
