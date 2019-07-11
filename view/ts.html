@@ -30,6 +30,9 @@
             <button class="button button-red" v-on:click="noMoreRemindAll" v-if="torrents.length > 0">忽略所有</button>
             <button class="button button-green" v-on:click="clearNoMoreRemindAll">清空忽略列表</button>
         </div>
+        <div class="nothing" v-if="torrents.length<=0">
+            暂时无任何推荐种子
+        </div>
         <div v-if="torrents.length>0">
             <button class="button button-blue" v-on:click="sortByReleaseTime">
                 发布时间
