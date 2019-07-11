@@ -253,3 +253,10 @@ strong {
     right: 10px;
     top: 10px;
 }
+
+.nothing {
+    text-align: center;
+    padding-top: 2em;
+    font-family: 'consolas';
+    font-size: 4em
+}
