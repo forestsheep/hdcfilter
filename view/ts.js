@@ -203,6 +203,11 @@ this.st = function () {
                     })
                     this.sort.free_remain = true
                 }
+            },
+            gotoOption: function () {
+                chrome.tabs.create({
+					url: "options/option.html"
+				})
             }
         }
     })
