@@ -190,11 +190,14 @@ function torrentFilter(config) {
             let name = cursor.key
             let name2 = cursor.value.name2
             let time = parseDate(cursor.value.time)
+            console.log(cursor.value.freetime)
+            let freetime = parseDate(cursor.value.freetime)
+            console.log(freetime)
             let size = parseSize(cursor.value.size)
             let seed = cursor.value.seed
             let dl = cursor.value.dl
             let complete = cursor.value.complete
-            let free = cursor.value.free
+            // let free = cursor.value.free
             let avgprg = cursor.value.avgprg
             let avgspd = cursor.value.avgspd
             let totalspd = cursor.value.totalspd
@@ -245,6 +248,14 @@ function torrentFilter(config) {
             if (config.elapsedtime.enable) {
                 if (time > parseInt(config.elapsedtime.year) * 518400 + parseInt(config.elapsedtime.month) * 43200 + parseInt(config.elapsedtime.day) * 1440 + parseInt(config.elapsedtime.hour) * 60 + parseInt(config.elapsedtime.minute)) {
                     // cursor.continue()
+                    goNext = true
+                }
+            }
+            if (config.freetime.enable) {
+                // let settedtime = parseInt(config.freetime.day) * 1440 + parseInt(config.freetime.hour) * 60
+                // console.log("设定好的时间是：" + settedtime)
+                // console.log("剩余时间是：" + freetime)
+                if (freetime < parseInt(config.freetime.day) * 1440 + parseInt(config.freetime.hour) * 60) {
                     goNext = true
                 }
             }
