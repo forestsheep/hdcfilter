@@ -248,6 +248,11 @@ function torrentFilter(config) {
                     goNext = true
                 }
             }
+            if (config.freetime.enable) {
+                if (freetime < parseInt(config.freetime.day) * 1440 + parseInt(config.freetime.hour) * 60) {
+                    goNext = true
+                }
+            }
             if (config.cdsize.enable) {
                 if (config.cdsize.choose === 0) {
                     if (size > parseInt(config.cdsize.nolt)) {
