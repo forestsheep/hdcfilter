@@ -36,7 +36,12 @@ this.st = function () {
 					month: 0,
 					day: 0,
 					hour: 2,
-					minute: 0,
+					minute: 0
+				},
+				freetime: {
+					enable: true,
+					day: 0,
+					hour: 2
 				},
 				cdsize: {
 					enable: true,
@@ -56,6 +61,14 @@ this.st = function () {
 		mounted: function () {
 			if (localStorage.config != null) {
 				this.config = JSON.parse(localStorage.config)
+				//upgrade code
+				if (this.config.freetime == undefined) {
+					this.config.freetime = {
+						enable: true,
+						day: 0,
+						hour: 2
+					}
+				}
 			}
 			if (localStorage.general_visible != null) {
 				if (localStorage.general_visible == "true") {
