@@ -190,35 +190,34 @@ function torrentFilter(config) {
             let name = cursor.key
             let name2 = cursor.value.name2
             let time = parseDate(cursor.value.time)
+            console.log(cursor.value.freetime)
+            let freetime = parseDate(cursor.value.freetime)
+            console.log(freetime)
             let size = parseSize(cursor.value.size)
             let seed = cursor.value.seed
             let dl = cursor.value.dl
             let complete = cursor.value.complete
-            let free = cursor.value.free
+            // let free = cursor.value.free
             let avgprg = cursor.value.avgprg
             let avgspd = cursor.value.avgspd
             let totalspd = cursor.value.totalspd
             let goNext = false
             if (config.seedpdl.enable) {
                 if (seed !== 0 && dl / seed < config.seedpdl.ratio) {
-                    // cursor.continue()
                     goNext = true
                 }
             } else {
                 if (config.cdseed.enable) {
                     if (parseInt(config.cdseed.choose) === 0) {
                         if (seed != parseInt(config.cdseed.noeq)) {
-                            // cursor.continue()
                             goNext = true
                         }
                     } else if (parseInt(config.cdseed.choose) === 1) {
                         if (seed >= parseInt(config.cdseed.nolt)) {
-                            // cursor.continue()
                             goNext = true
                         }
                     } else if (parseInt(config.cdseed.choose) === 2) {
                         if (seed <= parseInt(config.cdseed.nogt)) {
-                            // cursor.continue()
                             goNext = true
                         }
                     }
@@ -226,17 +225,14 @@ function torrentFilter(config) {
                 if (config.cddl.enable) {
                     if (parseInt(config.cddl.choose) === 0) {
                         if (dl != parseInt(config.cddl.noeq)) {
-                            // cursor.continue()
                             goNext = true
                         }
                     } else if (parseInt(config.cddl.choose) === 1) {
                         if (dl >= parseInt(config.cddl.nolt)) {
-                            // cursor.continue()
                             goNext = true
                         }
                     } else if (parseInt(config.cddl.choose) === 2) {
                         if (dl <= parseInt(config.cddl.nogt)) {
-                            // cursor.continue()
                             goNext = true
                         }
                     }
@@ -244,26 +240,27 @@ function torrentFilter(config) {
             }
             if (config.elapsedtime.enable) {
                 if (time > parseInt(config.elapsedtime.year) * 518400 + parseInt(config.elapsedtime.month) * 43200 + parseInt(config.elapsedtime.day) * 1440 + parseInt(config.elapsedtime.hour) * 60 + parseInt(config.elapsedtime.minute)) {
-                    // cursor.continue()
+                    goNext = true
+                }
+            }
+            if (config.freetime.enable) {
+                if (freetime < parseInt(config.freetime.day) * 1440 + parseInt(config.freetime.hour) * 60) {
                     goNext = true
                 }
             }
             if (config.cdsize.enable) {
                 if (config.cdsize.choose === 0) {
                     if (size > parseInt(config.cdsize.nolt)) {
-                        // cursor.continue()
                         goNext = true
                     }
                 } else if (config.cdsize.choose === 1) {
                     if (size < parseInt(config.cdsize.nogt)) {
-                        // cursor.continue()
                         goNext = true
                     }
                 }
             }
             if (config.cdavgprg.enable) {
                 if (avgprg >= parseInt(config.cdavgprg.pg)) {
-                    // cursor.continue()
                     goNext = true
                 }
             }
