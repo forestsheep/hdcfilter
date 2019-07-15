@@ -53,10 +53,10 @@ this.st = function () {
 					enable: true,
 					pg: 20
 				},
-				cmcheckloop: 5
+				cmcheckloop: 15
 			},
 			general_visible: false,
-			filter_visible: true,
+			filter_visible: true
 		},
 		mounted: function () {
 			if (localStorage.config != null) {
@@ -105,6 +105,9 @@ this.st = function () {
 				}
 			},
 			checkAlarmUpdate: function () {
+				if (this.config.cmcheckloop < 10) {
+					this.config.cmcheckloop = 10
+				}
 				localStorage.config = JSON.stringify(this.config)
 				chrome.alarms.clear("mainloop", function (wasCleared) {
 					if (wasCleared) {
