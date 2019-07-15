@@ -8,7 +8,7 @@ function vList(pageSwitch) {
                 anaList(data)
                 setTimeout(() => {
                     resolve()
-                }, 2000);
+                }, 10000);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 // console.log('error: ' + jqXHR.getAllResponseHeaders() + textStatus + errorThrown)
@@ -103,7 +103,7 @@ function ergRecord() {
         }
         setTimeout(() => {
             resolve()
-        }, 20000);
+        }, 30000);
     })
 }
 
