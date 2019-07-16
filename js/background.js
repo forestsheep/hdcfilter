@@ -190,9 +190,7 @@ function torrentFilter(config) {
             let name = cursor.key
             let name2 = cursor.value.name2
             let time = parseDate(cursor.value.time)
-            console.log(cursor.value.freetime)
             let freetime = parseDate(cursor.value.freetime)
-            console.log(freetime)
             let size = parseSize(cursor.value.size)
             let seed = cursor.value.seed
             let dl = cursor.value.dl
