@@ -69,7 +69,7 @@
             <div class="list-group-item">
                 <a target="_blank" :href="item.url">{{ item.name }}</a>
                 <img class="torrent_dl_icon" src="../icons/dl.png" alt="download">
-                <a :href="item.torrentlink">点击下载种子</a>
+                <a :href="item.torrentlink" v-on:click="noMoreRemind(item, index)">点击下载种子</a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <button class="button button-yellow tiny" v-on:click="noMoreRemind(item, index)">忽略</button>
             </div>
