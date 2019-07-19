@@ -352,13 +352,17 @@ function vList3() {
     })
 }
 
+function favFilter() {
+    if (localStorage.config != null) {
+        let config_jsobj = JSON.parse(localStorage.config)
+        torrentFilter(config_jsobj)
+    }
+}
+
 function looprun() {
     console.clear()
-    openDB().then(clearTorrents).then(clearIDBStroe).then(clearFavs).then(clearIDBStroe).then(vList1).then(vList).then(vList2).then(vList).then(vList3).then(vList).then(ergRecord).then(function () {
-        if (localStorage.config != null) {
-            let config_jsobj = JSON.parse(localStorage.config)
-            torrentFilter(config_jsobj)
-        }
+    openDB().then(clearTorrents).then(clearIDBStroe).then(clearFavs).then(clearIDBStroe).then(vList1).then(vList).then(vList2).then(vList).then(vList3).then(vList).then(ergRecord).then(favFilter).then(function () {
+        updateOsusumePage()
     })
 }
 

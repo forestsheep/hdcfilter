@@ -73,6 +73,21 @@ function openOsusumePage() {
     }
 }
 
+function updateOsusumePage() {
+    if (localStorage.osusumetabid != null) {
+        chrome.tabs.get(parseInt(localStorage.osusumetabid), function (tab) {
+            if (chrome.runtime.lastError || tab == undefined) {
+            } else {
+                chrome.tabs.update(tab.id, {
+                    url: "view/ts.html",
+                    active: false
+                }, function (tab) {})
+            }
+        })
+    } else {
+    }
+}
+
 function createTsHtml() {
     chrome.tabs.create({
         url: "view/ts.html"
