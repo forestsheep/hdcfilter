@@ -31,7 +31,9 @@ this.st = function () {
         },
         methods: {
             noMoreRemind: function (item, index) {
-                this.torrents.splice(index, 1)
+                setTimeout(() => {
+                    this.torrents.splice(index, 1)
+                }, 300);
                 let dbopenrequest = window.indexedDB.open("lin", 2)
                 dbopenrequest.onsuccess = function (event) {
                     let idb = dbopenrequest.result
