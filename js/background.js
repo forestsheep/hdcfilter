@@ -389,7 +389,7 @@ function openOsusumeTab() {
 
 chrome.alarms.create("mainloop", {
     delayInMinutes: 1,
-    periodInMinutes: 5
+    periodInMinutes: 15
 })
 
 chrome.alarms.onAlarm.addListener(function (alarm) {
