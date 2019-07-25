@@ -1,7 +1,7 @@
 {
     "background": {
         "scripts": [
-            "lib/jquery-3.4.1.js",
+            "lib/jquery-3.4.1.min.js",
             "util/dbop.js",
             "util/util.js",
             "util/common.js",
