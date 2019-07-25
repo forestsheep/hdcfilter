@@ -363,6 +363,7 @@ function looprun() {
     console.clear()
     openDB().then(clearTorrents).then(clearIDBStroe).then(clearFavs).then(clearIDBStroe).then(vList1).then(vList).then(vList2).then(vList).then(vList3).then(vList).then(ergRecord).then(favFilter).then(function () {
         updateOsusumePage()
+        console.log(Date.now())
     })
 }
 
@@ -397,5 +398,3 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
         looprun()
     }
 })
-
-looprun()
